@@ -1,0 +1,11 @@
+body { font-family: system-ui, sans-serif; padding: 16px; background: #1a1a1a; color: #fff; }
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tabs button { flex: 1; padding: 10px; background: #333; border: none; color: #fff; border-radius: 8px; cursor: pointer; }
+.tabs button.active { background: #0088cc; }
+.page.hidden { display: none; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
+.table-card { padding: 12px; text-align: center; border-radius: 8px; color: #fff; font-weight: bold; }
+.status-free { background: #2ecc71; }
+.status-reserved { background: #f1c40f; }
+.status-occupied { background: #e74c3c; }
+.mix-item { background: #2a2a2a; padding: 10px; border-radius: 6px; margin-bottom: 8px; }
