@@ -1,7 +1,7 @@
 // 1. НАСТРОЙКИ
 const supabaseUrl = 'https://stwgqinqdrbbxgzhsyog.supabase.co';
 const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // 2. TELEGRAM
 const tg = window.Telegram.WebApp;
@@ -21,7 +21,7 @@ document.querySelectorAll('.tabs button').forEach(btn => {
 
 // 4. СТОЛЫ
 async function loadTables() {
-  const { data } = await supabase.from('tables').select('*').order('number');
+  const { data } = await supabaseClient.from('tables').select('*').order('number');
   const grid = document.getElementById('tables-grid');
   grid.innerHTML = '';
   
@@ -34,13 +34,13 @@ async function loadTables() {
 }
 
 // 5. REAL-TIME
-supabase.channel('tables_realtime')
+supabaseClient.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
 
 // 6. МИКСЫ
 async function loadMixes() {
-  const { data } = await supabase.from('mixes').select('*');
+  const { data } = await supabaseClient.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
   list.innerHTML = data.map(m => 
     `<div class="mix-item"><b>${m.name}</b><br>${m.description} — ${m.price}₽</div>`
