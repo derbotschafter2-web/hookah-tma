@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка кальянной</title>
+  <!-- Библиотека Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #1a1a1a; color: #fff; padding: 20px; margin: 0; }
+    .hidden { display: none; }
+    input, button { padding: 12px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: #fff; width: 100%; box-sizing: border-box; }
+    button { background: #0088cc; cursor: pointer; font-weight: bold; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 20px; }
+    .card { background: #252525; padding: 15px; border-radius: 10px; text-align: center; }
+    h2 { margin-top: 0; }
+    .hint { color: #aaa; font-size: 0.9em; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+  <!-- Экран входа -->
+  <div id="login-screen">
+    <h2>🔐 Вход для персонала</h2>
+    <input type="password" id="admin-pass" placeholder="Введите пароль">
+    <button onclick="checkPassword()" style="margin-top: 10px;">Войти</button>
+    <p id="error-msg" style="color:#e74c3c; margin-top:10px; display:none;">❌ Неверный пароль</p>
+  </div>
+
+  <!-- Панель управления -->
+  <div id="admin-panel" class="hidden">
+    <h2>📊 Управление столами</h2>
+    <p class="hint">Выбери статус. Карта у клиентов обновится мгновенно.</p>
+    <div id="tables-admin" class="grid"></div>
+    <button onclick="logout()" style="background:#e74c3c; margin-top:25px;">🚪 Выйти</button>
+  </div>
+
+  <!-- Подключаем наш JS-файл -->
+  <script src="admin.js"></script>
+</body>
+</html>
