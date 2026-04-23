@@ -1,36 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hookah Map</title>
+  <!-- Telegram WebApp & Supabase -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="tabs">
+
+  <!-- Верхнее меню -->
+  <nav class="tabs">
     <button id="tab-map" class="active">📍 Карта</button>
     <button id="tab-mixes">🍃 Вкусы</button>
     <button id="tab-book">📞 Бронь</button>
+  </nav>
+
+  <!-- СТРАНИЦА 1: КАРТА -->
+  <div id="page-map" class="page active">
+    <div class="map-header">ПЛАН ПОМЕЩЕНИЯ</div>
+    
+    <!-- SVG-Контейнер карты -->
+    <div class="map-container">
+      <svg viewBox="0 0 400 650" width="100%" height="100%">
+        
+        <!-- 1. ПОЛ (Темный фон зала) -->
+        <rect x="10" y="10" width="380" height="630" rx="15" fill="#121212" stroke="#333" stroke-width="2"/>
+
+        <!-- 2. ДЕКОР (Растения в углах - просто круги для стиля) -->
+        <circle cx="25" cy="25" r="12" fill="#1e3a28"/>
+        <circle cx="375" cy="25" r="12" fill="#1e3a28"/>
+        <circle cx="25" cy="625" r="12" fill="#1e3a28"/>
+        <circle cx="375" cy="625" r="12" fill="#1e3a28"/>
+
+        <!-- 3. ДИВАНЫ (Черные зоны по периметру и центру) -->
+        <!-- Левая стена -->
+        <path d="M 20 60 L 20 100 L 90 100 L 90 60 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 140 L 20 180 L 90 180 L 90 140 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 220 L 20 260 L 90 260 L 90 220 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 300 L 20 340 L 90 340 L 90 300 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 380 L 20 420 L 90 420 L 90 380 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 460 L 20 500 L 90 500 L 90 460 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 20 540 L 20 580 L 90 580 L 90 540 Z" fill="#1a1a1a" rx="5"/>
+
+        <!-- Правая стена -->
+        <path d="M 310 60 L 310 100 L 380 100 L 380 60 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 140 L 310 180 L 380 180 L 380 140 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 220 L 310 260 L 380 260 L 380 220 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 300 L 310 340 L 380 340 L 380 300 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 380 L 310 420 L 380 420 L 380 380 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 460 L 310 500 L 380 500 L 380 460 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 310 540 L 310 580 L 380 580 L 380 540 Z" fill="#1a1a1a" rx="5"/>
+
+        <!-- Центр -->
+        <path d="M 130 80 L 130 140 L 270 140 L 270 80 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 130 180 L 130 240 L 270 240 L 270 180 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 130 280 L 130 340 L 270 340 L 270 280 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 130 380 L 130 440 L 270 440 L 270 380 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 130 480 L 130 540 L 270 540 L 270 480 Z" fill="#1a1a1a" rx="5"/>
+        <path d="M 130 580 L 130 620 L 270 620 L 270 580 Z" fill="#1a1a1a" rx="5"/>
+
+        <!-- 4. ИНТЕРАКТИВНЫЕ СТОЛЫ (Слой, куда JS будет рисовать номера) -->
+        <g id="tables-layer"></g>
+
+      </svg>
+    </div>
   </div>
 
-  <div id="page-map" class="page">
-    <h2>Столы</h2>
-    <div id="tables-grid" class="grid"></div>
-  </div>
-
+  <!-- СТРАНИЦА 2: ВКУСЫ -->
   <div id="page-mixes" class="page hidden">
-    <h2>Готовые миксы</h2>
-    <div id="mixes-list"></div>
+    <h2 class="page-title">Готовые миксы</h2>
+    <div id="mixes-list" class="list-container"></div>
   </div>
 
+  <!-- СТРАНИЦА 3: БРОНЬ -->
   <div id="page-book" class="page hidden">
-    <h2>Забронировать</h2>
-    <p>Напишите владельцу для подтверждения:</p>
-    <a href="https://wa.me/НОМЕР" target="_blank">WhatsApp</a><br>
-    <a href="https://zalo.me/НОМЕР" target="_blank">Zalo</a>
+    <h2 class="page-title">Забронировать</h2>
+    <div class="contact-box">
+      <p>Для брони напишите нам:</p>
+      <a href="https://wa.me/НОМЕР" class="btn btn-whatsapp">WhatsApp</a>
+      <a href="https://zalo.me/НОМЕР" class="btn btn-zalo">Zalo</a>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>
 </html>
