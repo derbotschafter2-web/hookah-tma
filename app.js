@@ -1,6 +1,6 @@
 // 1. НАСТРОЙКИ (ВСТАВЬ СВОИ КЛЮЧИ СЮДА!)
 const supabaseUrl = 'https://stwgqinqdrbbxgzhsyog.supabase.co'; // Твой URL
-const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S0l60xIU'; // Твой КЛЮЧ
+const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU'; // Твой КЛЮЧ
 
 // Создаем клиент (не меняй эту строку)
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
