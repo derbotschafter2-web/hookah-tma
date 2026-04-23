@@ -43,7 +43,7 @@ async function loadMixes() {
   const { data } = await supabaseClient.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
   list.innerHTML = data.map(m => 
-    `<div class="mix-item"><b>${m.name}</b><br>${m.description} — ${m.price}₽</div>`
+    `<div class="mix-item"><b>${m.name}</b><br>${m.description}</div>`
   ).join('');
 }
 
