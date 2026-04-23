@@ -1,11 +1,106 @@
-body { font-family: system-ui, sans-serif; padding: 16px; background: #1a1a1a; color: #fff; }
-.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-.tabs button { flex: 1; padding: 10px; background: #333; border: none; color: #fff; border-radius: 8px; cursor: pointer; }
-.tabs button.active { background: #0088cc; }
-.page.hidden { display: none; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
-.table-card { padding: 12px; text-align: center; border-radius: 8px; color: #fff; font-weight: bold; }
-.status-free { background: #2ecc71; }
-.status-reserved { background: #f1c40f; }
-.status-occupied { background: #e74c3c; }
-.mix-item { background: #2a2a2a; padding: 10px; border-radius: 6px; margin-bottom: 8px; }
+/* Сброс стилей */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden; /* Чтобы не скроллилось как сайт */
+}
+
+/* Табы навигации */
+.tabs {
+  display: flex;
+  background: #111;
+  padding: 10px 10px 0 10px;
+  border-bottom: 1px solid #333;
+}
+.tabs button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #666;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tabs button.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* Страницы */
+.page {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  padding: 15px;
+  display: none;
+}
+.page.active { display: block; animation: fade 0.2s ease; }
+.hidden { display: none; }
+
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Карта */
+.map-header {
+  text-align: center;
+  color: #aaa;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.map-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
+
+/* Стили SVG элементов (Столы) */
+.table-group { cursor: pointer; transition: transform 0.1s; }
+.table-group:active { transform: scale(0.9); }
+
+.table-rect {
+  fill: #333; /* Базовый цвет */
+  stroke: #555;
+  stroke-width: 1;
+  rx: 4;
+  transition: fill 0.3s;
+}
+.table-text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+/* ЦВЕТА СТАТУСОВ */
+.status-free .table-rect { fill: #2ecc71; stroke: #27ae60; }      /* Зеленый */
+.status-reserved .table-rect { fill: #f1c40f; stroke: #f39c12; } /* Желтый */
+.status-occupied .table-rect { fill: #e74c3c; stroke: #c0392b; } /* Красный */
+
+/* Списки и кнопки */
+.page-title { font-size: 20px; margin-bottom: 15px; }
+.list-container { display: flex; flex-direction: column; gap: 10px; }
+.mix-item { background: #1e1e1e; padding: 15px; border-radius: 8px; }
+.btn {
+  display: block;
+  text-align: center;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+.btn-whatsapp { background: #25D366; }
+.btn-zalo { background: #0068FF; }
