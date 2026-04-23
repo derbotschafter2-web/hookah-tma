@@ -1,16 +1,14 @@
-// 1. НАСТРОЙКИ (ВСТАВЬ СВОИ КЛЮЧИ СЮДА!)
-const supabaseUrl = 'https://stwgqinqdrbbxgzhsyog.supabase.co'; // Твой URL
-const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU'; // Твой КЛЮЧ
-
-// Создаем клиент (не меняй эту строку)
+// 1. НАСТРОЙКИ
+const supabaseUrl = 'https://stwgqinqdrbbxgzhsyog.supabase.co';
+const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// 2. ИНИЦИАЛИЗАЦИЯ TELEGRAM
+// 2. TELEGRAM
 const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-// 3. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+// 3. ВКЛАДКИ
 document.querySelectorAll('.tabs button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
@@ -21,11 +19,11 @@ document.querySelectorAll('.tabs button').forEach(btn => {
   });
 });
 
-// 4. ЗАГРУЗКА СТОЛОВ
+// 4. СТОЛЫ
 async function loadTables() {
   const { data } = await supabase.from('tables').select('*').order('number');
   const grid = document.getElementById('tables-grid');
-  grid.innerHTML = ''; // Очищаем перед отрисовкой
+  grid.innerHTML = '';
   
   data.forEach(t => {
     const div = document.createElement('div');
@@ -35,12 +33,12 @@ async function loadTables() {
   });
 }
 
-// 5. ПОДПИСКА НА ИЗМЕНЕНИЯ (REAL-TIME)
+// 5. REAL-TIME
 supabase.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
 
-// 6. ЗАГРУЗКА МИКСОВ
+// 6. МИКСЫ
 async function loadMixes() {
   const { data } = await supabase.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
