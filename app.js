@@ -25,7 +25,7 @@ const tablePositions = {
   10: [50, 28], 9: [50, 40], 8: [50, 52], 7: [50, 64], 6: [50, 86]
 };
 
-// 4. ОТРИСОВКА
+// 4. ОТРИСОВКА (БЕЗ НОМЕРОВ)
 function renderTables(tables) {
   const layer = document.getElementById('tables-layer');
   layer.innerHTML = '';
@@ -40,9 +40,9 @@ function renderTables(tables) {
     marker.style.left = `${left}%`;
     marker.style.top = `${top}%`;
 
+    // УБРАЛИ НОМЕР, оставили только затемнение и дым
     marker.innerHTML = `
       <div class="table-tint"></div>
-      <span class="table-number">${t.number}</span>
       <span class="smoke-icon">☁️</span>
     `;
 
