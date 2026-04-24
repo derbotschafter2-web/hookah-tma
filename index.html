@@ -2,9 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hookah Map</title>
-  <!-- Иконка-заглушка, чтобы убрать ошибку в консоли -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
   
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -13,8 +12,8 @@
 </head>
 <body>
 
-  <!-- ✅ Единый блок для фона (меняется через JS) -->
-  <div id="app-bg" class="full-bg"></div>
+  <!-- Блок фона -->
+  <div id="app-bg"></div>
 
   <!-- Меню -->
   <nav class="tabs">
@@ -28,21 +27,19 @@
     <div id="tables-layer"></div>
   </div>
 
-  <!-- СТРАНИЦА 2: ВКУСЫ (Восстановлено) -->
+  <!-- СТРАНИЦА 2: ВКУСЫ -->
   <div id="page-mixes" class="page hidden">
     <div class="glass-panel">
       <h2 class="page-title">Готовые миксы</h2>
-      <div id="mixes-list" class="list-container">
-        <!-- Сюда JS загрузит вкусы -->
-      </div>
+      <div id="mixes-list" class="list-container"></div>
     </div>
   </div>
 
-  <!-- СТРАНИЦА 3: БРОНЬ (Восстановлено) -->
+  <!-- СТРАНИЦА 3: БРОНЬ -->
   <div id="page-book" class="page hidden">
     <div class="glass-panel">
-      <h2 class="page-title">Забронировать стол</h2>
-      <p class="booking-text">Напишите нам для подтверждения брони:</p>
+      <h2 class="page-title">Забронировать</h2>
+      <p style="text-align:center; color:#aaa; margin-bottom:20px;">Напишите нам:</p>
       <div class="buttons-row">
         <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
         <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
