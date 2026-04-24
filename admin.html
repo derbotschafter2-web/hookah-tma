@@ -2,53 +2,121 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Hookah Map</title>
-  
-  <!-- 🚑 ИСПРАВЛЕНИЕ ОШИБКИ FAVICON (Браузер перестанет ругаться) -->
-  <link rel="icon" href="data:;base64,=">
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка кальянной</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a; 
+      color: #fff; 
+      padding: 20px; 
+      min-height: 100vh;
+    }
+    .hidden { display: none; }
+    
+    /* Экран входа */
+    #login-screen {
+      max-width: 400px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 40px;
+      background: #1a1a1a;
+      border-radius: 16px;
+      border: 1px solid #333;
+    }
+    #login-screen h2 { margin-bottom: 25px; font-size: 24px; }
+    
+    input, select, button { 
+      padding: 14px; 
+      border-radius: 10px; 
+      border: 1px solid #444; 
+      background: #222; 
+      color: #fff; 
+      width: 100%; 
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    button { 
+      background: #0088cc; 
+      cursor: pointer; 
+      font-weight: 600;
+      border: none;
+      transition: 0.2s;
+    }
+    button:hover { background: #0099dd; }
+    button:active { transform: scale(0.98); }
+    
+    /* Сетка столов */
+    #admin-panel { max-width: 800px; margin: 0 auto; }
+    #admin-panel h2 { margin-bottom: 10px; font-size: 24px; }
+    .hint { color: #888; font-size: 14px; margin-bottom: 25px; }
+    
+    .tables-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+      gap: 15px; 
+      margin-bottom: 30px;
+    }
+    
+    .table-card { 
+      background: #1a1a1a; 
+      padding: 20px; 
+      border-radius: 12px; 
+      text-align: center;
+      border: 2px solid #333;
+      transition: 0.3s;
+    }
+    .table-card:hover { border-color: #555; }
+    .table-card strong { 
+      display: block; 
+      font-size: 18px; 
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .table-card select {
+      margin: 0;
+      font-size: 13px;
+      padding: 10px;
+    }
+    
+    /* Цвета статусов в админке */
+    .status-free { border-color: #2ecc71; }
+    .status-reserved { border-color: #f1c40f; }
+    .status-occupied { border-color: #e74c3c; }
+    
+    .logout-btn {
+      background: #e74c3c;
+      margin-top: 20px;
+    }
+    .logout-btn:hover { background: #c0392b; }
+    
+    #error-msg {
+      color: #e74c3c;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Фон на весь экран -->
-  <div class="full-bg"></div>
-
-  <!-- Меню -->
-  <nav class="tabs">
-    <button id="tab-map" class="active">📍 Карта</button>
-    <button id="tab-mixes">🍃 Вкусы</button>
-    <button id="tab-book">📞 Бронь</button>
-  </nav>
-
-  <!-- КАРТА -->
-  <div id="page-map" class="page active map-page">
-    <!-- ✅ КАРТИНКА-ЗАГОЛОВОК (Замени title.png на свой файл из Canva) -->
-    <img src="title.png" class="map-title-img" alt="План помещения">
-    
-    <!-- Слой для интерактивных столов -->
-    <div id="tables-layer"></div>
+  <!-- Экран входа -->
+  <div id="login-screen">
+    <h2>🔐 Вход для персонала</h2>
+    <input type="password" id="admin-pass" placeholder="Введите пароль">
+    <button onclick="checkPassword()">Войти</button>
+    <p id="error-msg" class="hidden">❌ Неверный пароль</p>
   </div>
 
-  <!-- ВКУСЫ -->
-  <div id="page-mixes" class="page hidden">
-    <h2 class="page-title">Готовые миксы</h2>
-    <div id="mixes-list" class="list-container"></div>
+  <!-- Панель управления -->
+  <div id="admin-panel" class="hidden">
+    <h2>📊 Управление столами</h2>
+    <p class="hint">Выберите статус стола. Изменения мгновенно отобразятся на карте.</p>
+    <div id="tables-admin" class="tables-grid"></div>
+    <button onclick="logout()" class="logout-btn">🚪 Выйти</button>
   </div>
 
-  <!-- БРОНЬ -->
-  <div id="page-book" class="page hidden">
-    <h2 class="page-title">Забронировать</h2>
-    <div class="contact-box">
-      <p>Для брони напишите нам:</p>
-      <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
-      <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
-    </div>
-  </div>
-
-  <script src="app.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>
