@@ -12,43 +12,57 @@ body { background-color: #000; font-family: sans-serif; color: #fff; height: 100
 .map-title { text-align: center; color: #888; font-size: 12px; letter-spacing: 2px; margin-bottom: 10px; }
 .map-container { width: 100%; max-width: 400px; margin: 0 auto; background: #0a0a0a; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(255,255,255,0.05); border: 1px solid #333; }
 
-/* --- ЛОГИКА ДИЗАЙНА СТОЛОВ --- */
+/* --- СТОЛЫ (БЕЗ ЗЕЛЕНОГО) --- */
 .table-group { cursor: pointer; transition: all 0.3s ease; }
 
-/* Форма стола */
-.table-rect { fill: #1a1a1a; stroke-width: 2; transition: all 0.4s ease; }
-.plant-icon { text-anchor: middle; opacity: 0.6; transition: 0.3s; }
-.table-number { fill: #fff; font-size: 18px; font-weight: bold; text-anchor: middle; transition: opacity 0.3s; }
-.smoke-cloud { opacity: 0; transition: opacity 0.4s, transform 0.4s; transform: scale(0.5); pointer-events: none; }
+/* Базовый стиль стола (как на картинке - темный мрамор) */
+.table-rect { 
+  fill: #2a2a2a; /* Серый мрамор */
+  stroke: #444;   /* Темно-серая обводка */
+  stroke-width: 1;
+  transition: all 0.4s ease; 
+}
 
-/* === 1. СВОБОДЕН (Горит, как на картинке) === */
+.table-number { 
+  fill: #fff; 
+  font-size: 18px; 
+  font-weight: bold; 
+  text-anchor: middle; 
+  transition: opacity 0.3s; 
+}
+
+.smoke-cloud { 
+  opacity: 0; 
+  transition: opacity 0.4s, transform 0.4s; 
+  transform: scale(0.5); 
+  pointer-events: none; 
+}
+
+/* === 1. СВОБОДЕН (Просто серый, как на картинке) === */
 .status-free .table-rect {
-  fill: #222; /* Мрамор */
-  stroke: #2ecc71; /* Зеленая обводка */
-  filter: drop-shadow(0 0 5px rgba(46, 204, 113, 0.6)); /* Свечение */
+  fill: #2a2a2a;
+  stroke: #444;
 }
 .status-free .table-number { opacity: 1; }
 .status-free .smoke-cloud { opacity: 0; }
 
 /* === 2. ЗАБРОНИРОВАН (Темнеет, цифра пропадает) === */
 .status-reserved .table-rect {
-  fill: #111; /* Почти черный */
-  stroke: #555; /* Тусклая серая обводка */
-  filter: none; /* Без свечения */
+  fill: #1a1a1a; /* Темнее */
+  stroke: #333;
 }
-.status-reserved .table-number { opacity: 0; /* Цифра исчезла */ }
-.status-reserved .plant-icon { opacity: 0.2; }
+.status-reserved .table-number { opacity: 0; }
 .status-reserved .smoke-cloud { opacity: 0; }
 
-/* === 3. ЗАНЯТ (Дымное облако) === */
+/* === 3. ЗАНЯТ (Дым) === */
 .status-occupied .table-rect {
-  fill: #111;
-  stroke: #e74c3c; /* Красная обводка (можно убрать, если мешается) */
+  fill: #1a1a1a;
+  stroke: #e74c3c; /* Легкая красная обводка */
 }
-.status-occupied .table-number { opacity: 0.2; /* Цифра тусклая под дымом */ }
+.status-occupied .table-number { opacity: 0.3; }
 .status-occupied .smoke-cloud {
-  opacity: 0.9; /* Дым виден */
-  transform: scale(1.1); /* Дым немного пульсирует */
+  opacity: 0.9;
+  transform: scale(1.1);
 }
 
 /* Списки */
