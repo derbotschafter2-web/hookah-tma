@@ -8,29 +8,31 @@ body {
   overflow: hidden; 
 }
 
-/* ФОН (НЕ БЛОКИРУЕТ КЛИКИ) */
+/* ✅ НОВЫЙ ФОН (Твоя картинка bg.png) */
 .full-bg {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('plan.png');
+  background-image: url('bg.png'); /* <-- Твой новый файл */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
   pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 1;
 }
 
-/* МЕНЮ (ВСЕГДА ПОВЕРХ ВСЕГО) */
+/* Меню (Всегда поверх) */
 .tabs { 
   position: fixed; 
   top: 0; left: 0; width: 100%;
-  z-index: 100; /* Максимальный приоритет */
+  z-index: 100; 
   display: flex; 
-  background: rgba(0,0,0,0.85); 
-  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.6); 
+  backdrop-filter: blur(5px);
   padding: 10px 10px 8px; 
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  pointer-events: auto; /* Гарантируем работу кнопок */
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  pointer-events: auto; 
 }
 .tabs button { 
   flex: 1; 
@@ -46,25 +48,25 @@ body {
 }
 .tabs button.active { color: #fff; border-bottom: 2px solid #fff; }
 
-/* СТРАНИЦЫ */
+/* Страницы */
 .page { 
   position: relative; 
   z-index: 5;
-  margin-top: 48px; /* Отступ под меню */
+  margin-top: 48px; 
   height: calc(100vh - 48px); 
   overflow-y: auto; 
   padding: 15px; 
   display: none; 
+  background: transparent; /* Прозрачный фон, чтобы видеть картинку */
 }
 .page.active { display: block; animation: fade 0.2s ease; }
 .hidden { display: none; }
 
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-/* КАРТА */
 .map-page { padding: 0; overflow: hidden; display: block; }
 
-/* СЛОЙ СТОЛОВ (ПРОПУСКАЕТ КЛИКИ СКВОЗЬ ПУСТОЕ МЕСТО) */
+/* Слой столов */
 #tables-layer {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -72,14 +74,14 @@ body {
   pointer-events: none;
 }
 
-/* МАРКЕРЫ СТОЛОВ (КЛИКАБЕЛЬНЫ) */
+/* Маркеры столов */
 .table-marker {
   position: absolute;
   width: 40px; height: 40px;
   transform: translate(-50%, -50%);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  pointer-events: auto; /* Включаем клики ТОЛЬКО на столах */
+  pointer-events: auto; 
   transition: transform 0.2s;
 }
 .table-marker:active { transform: translate(-50%, -50%) scale(0.9); }
@@ -99,7 +101,7 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
 }
 
-/* СТАТУСЫ */
+/* Статусы */
 .status-free .table-tint { opacity: 0; }
 .status-free .smoke-icon { opacity: 0; }
 
@@ -109,10 +111,10 @@ body {
 .status-occupied .table-tint { opacity: 0.7; }
 .status-occupied .smoke-icon { opacity: 1; transform: translateX(-50%) scale(1.1); }
 
-/* ДРУГИЕ СТРАНИЦЫ */
+/* Списки (добавил темную подложку, чтобы текст читался на фоне картинки) */
 .page-title { font-size: 18px; margin-bottom: 15px; text-shadow: 0 2px 4px #000; text-align: center; }
 .list-container { display: flex; flex-direction: column; gap: 10px; }
-.mix-item { background: rgba(20,20,20,0.9); padding: 12px; border-radius: 10px; border: 1px solid #333; backdrop-filter: blur(5px); }
-.btn { display: block; text-align: center; padding: 14px; margin-top: 15px; border-radius: 10px; text-decoration: none; color: #fff; font-weight: 600; }
-.btn-whatsapp { background: #25D366; }
-.btn-zalo { background: #0068FF; }
+.mix-item { background: rgba(10,10,10,0.85); padding: 12px; border-radius: 10px; border: 1px solid #333; backdrop-filter: blur(5px); }
+.btn { display: block; text-align: center; padding: 14px; margin-top: 15px; border-radius: 10px; text-decoration: none; color: #fff; font-weight: 600; background: rgba(0,0,0,0.7); border: 1px solid #333; }
+.btn-whatsapp { background: rgba(37, 211, 102, 0.8); }
+.btn-zalo { background: rgba(0, 104, 255, 0.8); }
