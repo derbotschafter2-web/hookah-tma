@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hookah Map</title>
-  <!-- Заглушка иконки -->
+  <!-- Иконка-заглушка, чтобы убрать ошибку в консоли -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
   
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -13,8 +13,8 @@
 </head>
 <body>
 
-  <!-- Твоя новая картинка на фоне -->
-  <div class="full-bg" id="app-bg"></div>
+  <!-- ✅ Единый блок для фона (меняется через JS) -->
+  <div id="app-bg" class="full-bg"></div>
 
   <!-- Меню -->
   <nav class="tabs">
@@ -23,24 +23,30 @@
     <button id="tab-book">📞 Бронь</button>
   </nav>
 
-  <!-- КАРТА -->
-  <div id="page-map" class="page active map-page">
+  <!-- СТРАНИЦА 1: КАРТА -->
+  <div id="page-map" class="page map-page">
     <div id="tables-layer"></div>
   </div>
 
-  <!-- ВКУСЫ -->
+  <!-- СТРАНИЦА 2: ВКУСЫ (Восстановлено) -->
   <div id="page-mixes" class="page hidden">
-    <h2 class="page-title">Готовые миксы</h2>
-    <div id="mixes-list" class="list-container"></div>
+    <div class="glass-panel">
+      <h2 class="page-title">Готовые миксы</h2>
+      <div id="mixes-list" class="list-container">
+        <!-- Сюда JS загрузит вкусы -->
+      </div>
+    </div>
   </div>
 
-  <!-- БРОНЬ -->
+  <!-- СТРАНИЦА 3: БРОНЬ (Восстановлено) -->
   <div id="page-book" class="page hidden">
-    <h2 class="page-title">Забронировать</h2>
-    <div class="contact-box">
-      <p>Для брони напишите нам:</p>
-      <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
-      <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
+    <div class="glass-panel">
+      <h2 class="page-title">Забронировать стол</h2>
+      <p class="booking-text">Напишите нам для подтверждения брони:</p>
+      <div class="buttons-row">
+        <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
+        <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
+      </div>
     </div>
   </div>
 
