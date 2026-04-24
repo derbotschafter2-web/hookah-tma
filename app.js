@@ -1,8 +1,6 @@
-// 1. НАСТРОЙКИ (Пустое место для ключей, если нужно, но мы их впишем сразу)
+// 1. НАСТРОЙКИ
 const SUPABASE_URL = 'https://stwgqinqdrbbxgzhsyog.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU';
-
-// Инициализация клиента (называем его 'db', чтобы не было ошибок)
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const tg = window.Telegram.WebApp;
@@ -20,14 +18,14 @@ document.querySelectorAll('.tabs button').forEach(btn => {
   });
 });
 
-// 3. КООРДИНАТЫ СТОЛОВ (Точно по плану)
+// 3. КООРДИНАТЫ
 const tablePositions = {
   5: [60, 85], 4: [60, 165], 3: [60, 245], 2: [60, 325], 1: [60, 405], 17: [60, 570],
   15: [340, 85], 14: [340, 165], 13: [340, 245], 12: [340, 325], 11: [340, 405], 16: [340, 570],
   10: [200, 125], 9: [200, 225], 8: [200, 325], 7: [200, 425], 6: [200, 600]
 };
 
-// 4. ОТРИСОВКА (Дизайн + Эффекты)
+// 4. ОТРИСОВКА (БЕЗ РАСТЕНИЯ)
 function renderTables(tables) {
   const layer = document.getElementById('tables-layer');
   layer.innerHTML = '';
@@ -48,44 +46,34 @@ function renderTables(tables) {
     rect.setAttribute("rx", 6);
     rect.setAttribute("class", "table-rect");
 
-    // Растение
-    const plant = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    plant.textContent = '🌿';
-    plant.setAttribute("font-size", "14px");
-    plant.setAttribute("text-anchor", "middle");
-    plant.setAttribute("y", "-6");
-    plant.setAttribute("class", "plant-icon");
-
-    // Номер
+    // Номер (только цифра)
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.textContent = t.number;
     text.setAttribute("class", "table-number");
-    text.setAttribute("y", "16");
+    text.setAttribute("y", "8");
 
-    // Дым (облако)
+    // Дым (только когда занят)
     const smoke = document.createElementNS("http://www.w3.org/2000/svg", "text");
     smoke.textContent = '☁️';
-    smoke.setAttribute("font-size", "40px");
+    smoke.setAttribute("font-size", "45px");
     smoke.setAttribute("text-anchor", "middle");
     smoke.setAttribute("dominant-baseline", "middle");
     smoke.setAttribute("class", "smoke-cloud");
 
     g.appendChild(rect);
-    g.appendChild(plant);
     g.appendChild(text);
     g.appendChild(smoke);
     layer.appendChild(g);
   });
 }
 
-// 5. ЗАГРУЗКА ДАННЫХ
+// 5. ЗАГРУЗКА
 async function loadTables() {
   const { data, error } = await db.from('tables').select('*');
   if (error) console.error(error);
   if (data) renderTables(data);
 }
 
-// Подписка
 db.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
