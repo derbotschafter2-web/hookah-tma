@@ -1,106 +1,60 @@
-/* Сброс стилей */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: #000; font-family: sans-serif; color: #fff; height: 100vh; overflow: hidden; }
 
-body {
-  background-color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #fff;
-  height: 100vh;
-  overflow: hidden; /* Чтобы не скроллилось как сайт */
-}
+.tabs { display: flex; background: #111; padding: 10px 10px 0; border-bottom: 1px solid #333; }
+.tabs button { flex: 1; background: transparent; border: none; color: #666; padding: 12px 0; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; }
+.tabs button.active { color: #fff; border-bottom: 2px solid #fff; }
 
-/* Табы навигации */
-.tabs {
-  display: flex;
-  background: #111;
-  padding: 10px 10px 0 10px;
-  border-bottom: 1px solid #333;
-}
-.tabs button {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #666;
-  padding: 12px 0;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
-.tabs button.active {
-  color: #fff;
-  border-bottom: 2px solid #fff;
-}
-
-/* Страницы */
-.page {
-  height: calc(100vh - 50px);
-  overflow-y: auto;
-  padding: 15px;
-  display: none;
-}
-.page.active { display: block; animation: fade 0.2s ease; }
+.page { height: calc(100vh - 50px); overflow-y: auto; padding: 15px; display: none; }
+.page.active { display: block; }
 .hidden { display: none; }
 
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.map-title { text-align: center; color: #888; font-size: 12px; letter-spacing: 2px; margin-bottom: 10px; }
+.map-container { width: 100%; max-width: 400px; margin: 0 auto; background: #0a0a0a; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(255,255,255,0.05); border: 1px solid #333; }
 
-/* Карта */
-.map-header {
-  text-align: center;
-  color: #aaa;
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+/* --- ЛОГИКА ДИЗАЙНА СТОЛОВ --- */
+.table-group { cursor: pointer; transition: all 0.3s ease; }
+
+/* Форма стола */
+.table-rect { fill: #1a1a1a; stroke-width: 2; transition: all 0.4s ease; }
+.plant-icon { text-anchor: middle; opacity: 0.6; transition: 0.3s; }
+.table-number { fill: #fff; font-size: 18px; font-weight: bold; text-anchor: middle; transition: opacity 0.3s; }
+.smoke-cloud { opacity: 0; transition: opacity 0.4s, transform 0.4s; transform: scale(0.5); pointer-events: none; }
+
+/* === 1. СВОБОДЕН (Горит, как на картинке) === */
+.status-free .table-rect {
+  fill: #222; /* Мрамор */
+  stroke: #2ecc71; /* Зеленая обводка */
+  filter: drop-shadow(0 0 5px rgba(46, 204, 113, 0.6)); /* Свечение */
 }
-.map-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  background: #1a1a1a;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-  border: 1px solid #333;
+.status-free .table-number { opacity: 1; }
+.status-free .smoke-cloud { opacity: 0; }
+
+/* === 2. ЗАБРОНИРОВАН (Темнеет, цифра пропадает) === */
+.status-reserved .table-rect {
+  fill: #111; /* Почти черный */
+  stroke: #555; /* Тусклая серая обводка */
+  filter: none; /* Без свечения */
+}
+.status-reserved .table-number { opacity: 0; /* Цифра исчезла */ }
+.status-reserved .plant-icon { opacity: 0.2; }
+.status-reserved .smoke-cloud { opacity: 0; }
+
+/* === 3. ЗАНЯТ (Дымное облако) === */
+.status-occupied .table-rect {
+  fill: #111;
+  stroke: #e74c3c; /* Красная обводка (можно убрать, если мешается) */
+}
+.status-occupied .table-number { opacity: 0.2; /* Цифра тусклая под дымом */ }
+.status-occupied .smoke-cloud {
+  opacity: 0.9; /* Дым виден */
+  transform: scale(1.1); /* Дым немного пульсирует */
 }
 
-/* Стили SVG элементов (Столы) */
-.table-group { cursor: pointer; transition: transform 0.1s; }
-.table-group:active { transform: scale(0.9); }
-
-.table-rect {
-  fill: #333; /* Базовый цвет */
-  stroke: #555;
-  stroke-width: 1;
-  rx: 4;
-  transition: fill 0.3s;
-}
-.table-text {
-  fill: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  pointer-events: none;
-}
-
-/* ЦВЕТА СТАТУСОВ */
-.status-free .table-rect { fill: #2ecc71; stroke: #27ae60; }      /* Зеленый */
-.status-reserved .table-rect { fill: #f1c40f; stroke: #f39c12; } /* Желтый */
-.status-occupied .table-rect { fill: #e74c3c; stroke: #c0392b; } /* Красный */
-
-/* Списки и кнопки */
+/* Списки */
 .page-title { font-size: 20px; margin-bottom: 15px; }
 .list-container { display: flex; flex-direction: column; gap: 10px; }
 .mix-item { background: #1e1e1e; padding: 15px; border-radius: 8px; }
-.btn {
-  display: block;
-  text-align: center;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-}
+.btn { display: block; text-align: center; padding: 15px; margin-top: 15px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: bold; }
 .btn-whatsapp { background: #25D366; }
 .btn-zalo { background: #0068FF; }
