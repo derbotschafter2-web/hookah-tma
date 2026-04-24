@@ -1,4 +1,4 @@
-// 1. НАСТРОЙКИ
+// 1. ПОДКЛЮЧЕНИЕ
 const SUPABASE_URL = 'https://stwgqinqdrbbxgzhsyog.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU';
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -18,62 +18,50 @@ document.querySelectorAll('.tabs button').forEach(btn => {
   });
 });
 
-// 3. КООРДИНАТЫ
+// 3. КООРДИНАТЫ СТОЛОВ (X%, Y%) - рассчитаны под твой план
 const tablePositions = {
-  5: [60, 85], 4: [60, 165], 3: [60, 245], 2: [60, 325], 1: [60, 405], 17: [60, 570],
-  15: [340, 85], 14: [340, 165], 13: [340, 245], 12: [340, 325], 11: [340, 405], 16: [340, 570],
-  10: [200, 125], 9: [200, 225], 8: [200, 325], 7: [200, 425], 6: [200, 600]
+  // Левая колонка
+  5: [22, 22], 4: [22, 34], 3: [22, 46], 2: [22, 58], 1: [22, 70], 17: [14, 86],
+  // Правая колонка
+  15: [78, 22], 14: [78, 34], 13: [78, 46], 12: [78, 58], 11: [78, 70], 16: [86, 86],
+  // Центральная колонка
+  10: [50, 28], 9: [50, 40], 8: [50, 52], 7: [50, 64], 6: [50, 86]
 };
 
-// 4. ОТРИСОВКА (БЕЗ РАСТЕНИЯ)
+// 4. ОТРИСОВКА МАРКЕРОВ ПОВЕРХ КАРТИНКИ
 function renderTables(tables) {
-  const layer = document.getElementById('tables-layer');
-  layer.innerHTML = '';
+  const overlay = document.getElementById('tables-overlay');
+  overlay.innerHTML = '';
 
   tables.forEach(t => {
     const pos = tablePositions[t.number];
     if (!pos) return;
-    const [cx, cy] = pos;
+    const [left, top] = pos;
 
-    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    g.setAttribute("class", `table-group status-${t.status}`);
-    g.setAttribute("transform", `translate(${cx}, ${cy})`);
+    const marker = document.createElement('div');
+    marker.className = `table-marker status-${t.status}`;
+    marker.style.left = `${left}%`;
+    marker.style.top = `${top}%`;
 
-    // Фон стола
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect.setAttribute("x", -28); rect.setAttribute("y", -28);
-    rect.setAttribute("width", 56); rect.setAttribute("height", 56);
-    rect.setAttribute("rx", 6);
-    rect.setAttribute("class", "table-rect");
+    // Внутренняя структура маркера
+    marker.innerHTML = `
+      <div class="table-tint"></div>
+      <span class="table-number">${t.number}</span>
+      <span class="smoke-icon">☁️</span>
+    `;
 
-    // Номер (только цифра)
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.textContent = t.number;
-    text.setAttribute("class", "table-number");
-    text.setAttribute("y", "8");
-
-    // Дым (только когда занят)
-    const smoke = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    smoke.textContent = '☁️';
-    smoke.setAttribute("font-size", "45px");
-    smoke.setAttribute("text-anchor", "middle");
-    smoke.setAttribute("dominant-baseline", "middle");
-    smoke.setAttribute("class", "smoke-cloud");
-
-    g.appendChild(rect);
-    g.appendChild(text);
-    g.appendChild(smoke);
-    layer.appendChild(g);
+    overlay.appendChild(marker);
   });
 }
 
-// 5. ЗАГРУЗКА
+// 5. ЗАГРУЗКА ДАННЫХ
 async function loadTables() {
   const { data, error } = await db.from('tables').select('*');
-  if (error) console.error(error);
+  if (error) console.error('Ошибка загрузки:', error);
   if (data) renderTables(data);
 }
 
+// Подписка на изменения в реальном времени
 db.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
@@ -82,7 +70,7 @@ db.channel('tables_realtime')
 async function loadMixes() {
   const { data } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
-  if(data) {
+  if (data) {
     list.innerHTML = data.map(m => 
       `<div class="mix-item"><b>${m.name}</b><br>${m.description}</div>`
     ).join('');
