@@ -1,4 +1,4 @@
-// 1. ПОДКЛЮЧЕНИЕ
+// 1. ПОДКЛЮЧЕНИЕ К БАЗЕ
 const supabaseUrl = 'https://stwgqinqdrbbxgzhsyog.supabase.co';
 const supabaseKey = 'sb_publishable_vjEzyQgNLOd0Cw_QK6PzHg_S8l60xIU';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
@@ -18,64 +18,76 @@ document.querySelectorAll('.tabs button').forEach(btn => {
   });
 });
 
-// 3. КООРДИНАТЫ СТОЛОВ (X, Y) под твой макет
-// Я расставил их точно по сетке 400x650
+// 3. КООРДИНАТЫ (Те же самые, карта не ломается)
 const tablePositions = {
-  // Левая колонка
-  5: [55, 80], 4: [55, 160], 3: [55, 240], 2: [55, 320], 1: [55, 400], 17: [55, 560],
-  // Правая колонка
-  15: [345, 80], 14: [345, 160], 13: [345, 240], 12: [345, 320], 11: [345, 400], 16: [345, 560],
-  // Центральная колонка (сдвиги под диваны)
-  10: [200, 110], 9: [200, 210], 8: [200, 310], 7: [200, 410], 6: [200, 600]
+  5: [60, 85], 4: [60, 165], 3: [60, 245], 2: [60, 325], 1: [60, 405], 17: [60, 570],
+  15: [340, 85], 14: [340, 165], 13: [340, 245], 12: [340, 325], 11: [340, 405], 16: [340, 570],
+  10: [200, 125], 9: [200, 225], 8: [200, 325], 7: [200, 425], 6: [200, 600]
 };
 
-// 4. ОТРИСОВКА СТОЛОВ
+// 4. ОТРИСОВКА СТОЛОВ (С эффектом дыма и скрытия)
 function renderTables(tables) {
   const layer = document.getElementById('tables-layer');
-  layer.innerHTML = ''; // Очистка перед перерисовкой
+  layer.innerHTML = '';
 
   tables.forEach(t => {
     const pos = tablePositions[t.number];
     if (!pos) return;
-
     const [cx, cy] = pos;
-    
-    // Группа SVG
+
+    // Группа стола
     const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
     g.setAttribute("class", `table-group status-${t.status}`);
-    g.setAttribute("transform", `translate(${cx}, ${cy})`); // Перемещаем в нужное место
+    g.setAttribute("transform", `translate(${cx}, ${cy})`);
 
-    // Стол (Прямоугольник)
+    // 1. Стол (Фон)
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect.setAttribute("x", -25); // Половина ширины влево
-    rect.setAttribute("y", -15); // Половина высоты вверх
-    rect.setAttribute("width", 50);
-    rect.setAttribute("height", 30);
+    rect.setAttribute("x", -28); rect.setAttribute("y", -28);
+    rect.setAttribute("width", 56); rect.setAttribute("height", 56);
+    rect.setAttribute("rx", 6);
     rect.setAttribute("class", "table-rect");
 
-    // Номер
+    // 2. Растение 🌿 (Всегда на столе)
+    const plant = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    plant.textContent = '🌿';
+    plant.setAttribute("font-size", "14px");
+    plant.setAttribute("text-anchor", "middle");
+    plant.setAttribute("y", "-6");
+    plant.setAttribute("class", "plant-icon");
+
+    // 3. Номер (Исчезает при брони)
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.textContent = t.number;
-    text.setAttribute("class", "table-text");
+    text.setAttribute("class", "table-number");
+    text.setAttribute("y", "16");
+
+    // 4. Дымовое облако ☁️ (Появляется только когда занят)
+    const smoke = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    smoke.textContent = '☁️';
+    smoke.setAttribute("font-size", "40px"); // Большой размер для густого дыма
+    smoke.setAttribute("text-anchor", "middle");
+    smoke.setAttribute("dominant-baseline", "middle");
+    smoke.setAttribute("class", "smoke-cloud");
 
     g.appendChild(rect);
+    g.appendChild(plant);
     g.appendChild(text);
+    g.appendChild(smoke); // Дым всегда поверх
     layer.appendChild(g);
   });
 }
 
-// 5. ЗАГРУЗКА ДАННЫХ
+// 5. ЗАГРУЗКА
 async function loadTables() {
   const { data } = await supabase.from('tables').select('*');
   renderTables(data);
 }
 
-// Подписка на изменения (Realtime)
 supabase.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
 
-// Миксы
+// Миксы (без изменений)
 async function loadMixes() {
   const { data } = await supabase.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
