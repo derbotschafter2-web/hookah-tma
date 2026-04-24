@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hookah Map</title>
-  <!-- Заглушка, чтобы консоль не ругалась на favicon -->
-  <link rel="icon" href=";base64,=">
+  <!-- Заглушка иконки -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
   
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,28 +13,28 @@
 </head>
 <body>
 
-  <!-- ФОН (всегда сзади) -->
-  <div class="full-bg"></div>
+  <!-- Твоя новая картинка на фоне -->
+  <div class="full-bg" id="app-bg"></div>
 
-  <!-- МЕНЮ (ЖЕСТКО СВЕРХУ, КЛИКАБЕЛЬНОЕ) -->
+  <!-- Меню -->
   <nav class="tabs">
     <button id="tab-map" class="active">📍 Карта</button>
     <button id="tab-mixes">🍃 Вкусы</button>
     <button id="tab-book">📞 Бронь</button>
   </nav>
 
-  <!-- СТРАНИЦА 1: КАРТА -->
+  <!-- КАРТА -->
   <div id="page-map" class="page active map-page">
     <div id="tables-layer"></div>
   </div>
 
-  <!-- СТРАНИЦА 2: ВКУСЫ -->
+  <!-- ВКУСЫ -->
   <div id="page-mixes" class="page hidden">
     <h2 class="page-title">Готовые миксы</h2>
     <div id="mixes-list" class="list-container"></div>
   </div>
 
-  <!-- СТРАНИЦА 3: БРОНЬ -->
+  <!-- БРОНЬ -->
   <div id="page-book" class="page hidden">
     <h2 class="page-title">Забронировать</h2>
     <div class="contact-box">
