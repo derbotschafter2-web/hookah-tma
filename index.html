@@ -10,22 +10,19 @@
 </head>
 <body>
 
-  <!-- Меню -->
+  <!-- Фон на весь экран -->
+  <div class="full-bg"></div>
+
+  <!-- Меню (поверх фона) -->
   <nav class="tabs">
     <button id="tab-map" class="active">📍 Карта</button>
     <button id="tab-mixes">🍃 Вкусы</button>
     <button id="tab-book">📞 Бронь</button>
   </nav>
 
-  <!-- КАРТА -->
-  <div id="page-map" class="page active">
-    <div class="map-title">ПЛАН ПОМЕЩЕНИЯ</div>
-    <div class="map-wrapper">
-      <!-- Твоя картинка -->
-      <img src="plan.png" alt="План зала" class="map-image">
-      <!-- Слой для интерактивных столов -->
-      <div id="tables-overlay"></div>
-    </div>
+  <!-- КАРТА (Занимает весь экран поверх фона) -->
+  <div id="page-map" class="page active map-page">
+    <div id="tables-layer"></div>
   </div>
 
   <!-- ВКУСЫ -->
