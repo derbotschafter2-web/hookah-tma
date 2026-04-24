@@ -52,75 +52,109 @@ body {
 }
 .page.active { display: block; animation: fade 0.2s ease; }
 .hidden { display: none; }
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-/* Карта на полный экран */
-.map-page { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-
-/* ✅ СТИЛИ ДЛЯ ТВОЕЙ КАРТИНКИ С ТЕКСТОМ */
-.map-title-img {
-  display: block;
-  margin: 10px auto 5px auto;
-  width: 70%; /* Размер текста */
-  max-width: 280px;
-  z-index: 5;
-  /* Легкое свечение для красоты */
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)); 
-  animation: fade 0.5s ease;
+@keyframes fade { 
+  from { opacity: 0; } 
+  to { opacity: 1; } 
 }
 
-/* МАРКЕРЫ СТОЛОВ */
+/* Карта на полный экран */
+.map-page { 
+  padding: 0; 
+  overflow: hidden; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+/* МАРКЕРЫ СТОЛОВ (БЕЗ НОМЕРОВ) */
 .table-marker {
   position: absolute;
-  width: 40px; height: 40px; /* Чуть меньше, чтобы аккуратнее было */
+  width: 40px; 
+  height: 40px;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
   z-index: 2;
   transition: transform 0.2s;
 }
-.table-marker:active { transform: translate(-50%, -50%) scale(0.9); }
-
-.table-number {
-  font-size: 15px; font-weight: 800; color: #fff;
-  text-shadow: 0 1px 4px rgba(0,0,0,1);
-  transition: opacity 0.3s;
-  pointer-events: none;
+.table-marker:active { 
+  transform: translate(-50%, -50%) scale(0.9); 
 }
+
+/* Затемнение стола (круг) */
 .table-tint {
-  position: absolute; inset: 0;
+  position: absolute; 
+  inset: 0;
   background: rgba(0,0,0,0.65);
   border-radius: 50%;
   opacity: 0;
   transition: opacity 0.3s;
 }
+
+/* Иконка дыма */
 .smoke-icon {
-  position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
-  font-size: 28px; opacity: 0; transition: opacity 0.4s, transform 0.4s;
+  position: absolute; 
+  top: -18px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  font-size: 28px; 
+  opacity: 0; 
+  transition: opacity 0.4s, transform 0.4s;
   pointer-events: none;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
 }
 
-/* === СТАТУСЫ === */
-/* Свободен */
+/* === СТАТУСЫ СТОЛОВ === */
+
+/* Свободен: Прозрачный */
 .status-free .table-tint { opacity: 0; }
-.status-free .table-number { opacity: 1; }
 .status-free .smoke-icon { opacity: 0; }
 
-/* Забронирован */
+/* Забронирован: Темное пятно */
 .status-reserved .table-tint { opacity: 1; }
-.status-reserved .table-number { opacity: 0; }
 .status-reserved .smoke-icon { opacity: 0; }
 
-/* Занят */
+/* Занят: Дым + затемнение */
 .status-occupied .table-tint { opacity: 0.7; }
-.status-occupied .table-number { opacity: 0.1; }
-.status-occupied .smoke-icon { opacity: 1; transform: translateX(-50%) scale(1.1); }
+.status-occupied .smoke-icon { 
+  opacity: 1; 
+  transform: translateX(-50%) scale(1.1); 
+}
 
 /* Списки и кнопки */
-.page-title { font-size: 18px; margin-bottom: 15px; text-shadow: 0 2px 4px #000; text-align: center; }
-.list-container { display: flex; flex-direction: column; gap: 10px; }
-.mix-item { background: rgba(20,20,20,0.9); padding: 12px; border-radius: 10px; border: 1px solid #333; backdrop-filter: blur(5px); }
-.btn { display: block; text-align: center; padding: 14px; margin-top: 15px; border-radius: 10px; text-decoration: none; color: #fff; font-weight: 600; }
+.page-title { 
+  font-size: 18px; 
+  margin-bottom: 15px; 
+  text-shadow: 0 2px 4px #000; 
+  text-align: center; 
+}
+
+.list-container { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+.mix-item { 
+  background: rgba(20,20,20,0.9); 
+  padding: 12px; 
+  border-radius: 10px; 
+  border: 1px solid #333; 
+  backdrop-filter: blur(5px); 
+}
+
+.btn { 
+  display: block; 
+  text-align: center; 
+  padding: 14px; 
+  margin-top: 15px; 
+  border-radius: 10px; 
+  text-decoration: none; 
+  color: #fff; 
+  font-weight: 600; 
+}
+
 .btn-whatsapp { background: #25D366; }
 .btn-zalo { background: #0068FF; }
