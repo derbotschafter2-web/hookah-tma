@@ -4,42 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hookah Map</title>
+  <!-- Заглушка, чтобы консоль не ругалась на favicon -->
+  <link rel="icon" href=";base64,=">
   
-  <!-- 🚑 ИСПРАВЛЕНИЕ ОШИБКИ FAVICON (Браузер перестанет ругаться) -->
-  <link rel="icon" href="data:;base64,=">
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Фон на весь экран -->
+  <!-- ФОН (всегда сзади) -->
   <div class="full-bg"></div>
 
-  <!-- Меню -->
+  <!-- МЕНЮ (ЖЕСТКО СВЕРХУ, КЛИКАБЕЛЬНОЕ) -->
   <nav class="tabs">
     <button id="tab-map" class="active">📍 Карта</button>
     <button id="tab-mixes">🍃 Вкусы</button>
     <button id="tab-book">📞 Бронь</button>
   </nav>
 
-  <!-- КАРТА -->
+  <!-- СТРАНИЦА 1: КАРТА -->
   <div id="page-map" class="page active map-page">
-    <!-- ✅ КАРТИНКА-ЗАГОЛОВОК (Замени title.png на свой файл из Canva) -->
-    <img src="title.png" class="map-title-img" alt="План помещения">
-    
-    <!-- Слой для интерактивных столов -->
     <div id="tables-layer"></div>
   </div>
 
-  <!-- ВКУСЫ -->
+  <!-- СТРАНИЦА 2: ВКУСЫ -->
   <div id="page-mixes" class="page hidden">
     <h2 class="page-title">Готовые миксы</h2>
     <div id="mixes-list" class="list-container"></div>
   </div>
 
-  <!-- БРОНЬ -->
+  <!-- СТРАНИЦА 3: БРОНЬ -->
   <div id="page-book" class="page hidden">
     <h2 class="page-title">Забронировать</h2>
     <div class="contact-box">
