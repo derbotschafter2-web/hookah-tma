@@ -2,40 +2,53 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Админка кальянной</title>
-  <!-- Библиотека Supabase -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hookah Map</title>
+  
+  <!-- 🚑 ИСПРАВЛЕНИЕ ОШИБКИ FAVICON (Браузер перестанет ругаться) -->
+  <link rel="icon" href="data:;base64,=">
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: system-ui, sans-serif; background: #1a1a1a; color: #fff; padding: 20px; margin: 0; }
-    .hidden { display: none; }
-    input, button { padding: 12px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: #fff; width: 100%; box-sizing: border-box; }
-    button { background: #0088cc; cursor: pointer; font-weight: bold; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 20px; }
-    .card { background: #252525; padding: 15px; border-radius: 10px; text-align: center; }
-    h2 { margin-top: 0; }
-    .hint { color: #aaa; font-size: 0.9em; margin-bottom: 15px; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Экран входа -->
-  <div id="login-screen">
-    <h2>🔐 Вход для персонала</h2>
-    <input type="password" id="admin-pass" placeholder="Введите пароль">
-    <button onclick="checkPassword()" style="margin-top: 10px;">Войти</button>
-    <p id="error-msg" style="color:#e74c3c; margin-top:10px; display:none;">❌ Неверный пароль</p>
+  <!-- Фон на весь экран -->
+  <div class="full-bg"></div>
+
+  <!-- Меню -->
+  <nav class="tabs">
+    <button id="tab-map" class="active">📍 Карта</button>
+    <button id="tab-mixes">🍃 Вкусы</button>
+    <button id="tab-book">📞 Бронь</button>
+  </nav>
+
+  <!-- КАРТА -->
+  <div id="page-map" class="page active map-page">
+    <!-- ✅ КАРТИНКА-ЗАГОЛОВОК (Замени title.png на свой файл из Canva) -->
+    <img src="title.png" class="map-title-img" alt="План помещения">
+    
+    <!-- Слой для интерактивных столов -->
+    <div id="tables-layer"></div>
   </div>
 
-  <!-- Панель управления -->
-  <div id="admin-panel" class="hidden">
-    <h2>📊 Управление столами</h2>
-    <p class="hint">Выбери статус. Карта у клиентов обновится мгновенно.</p>
-    <div id="tables-admin" class="grid"></div>
-    <button onclick="logout()" style="background:#e74c3c; margin-top:25px;">🚪 Выйти</button>
+  <!-- ВКУСЫ -->
+  <div id="page-mixes" class="page hidden">
+    <h2 class="page-title">Готовые миксы</h2>
+    <div id="mixes-list" class="list-container"></div>
   </div>
 
-  <!-- Подключаем наш JS-файл -->
-  <script src="admin.js"></script>
+  <!-- БРОНЬ -->
+  <div id="page-book" class="page hidden">
+    <h2 class="page-title">Забронировать</h2>
+    <div class="contact-box">
+      <p>Для брони напишите нам:</p>
+      <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
+      <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
