@@ -9,7 +9,16 @@ tg.ready();
 // Элемент фона
 const appBg = document.getElementById('app-bg');
 
-// 2. ВКЛАДКИ + СМЕНА ФОНА
+// ✅ ФУНКЦИЯ СМЕНЫ ФОНА
+function setBackground(type) {
+  if (type === 'map') {
+    appBg.style.backgroundImage = "url('plan.png')";
+  } else {
+    appBg.style.backgroundImage = "url('bg.png')";
+  }
+}
+
+// 2. ВКЛАДКИ
 document.querySelectorAll('.tabs button').forEach(btn => {
   btn.addEventListener('click', () => {
     // Сброс активных классов
@@ -23,13 +32,11 @@ document.querySelectorAll('.tabs button').forEach(btn => {
     target.classList.remove('hidden');
     target.classList.add('active');
 
-    // 🎨 ЛОГИКА ФОНА:
+    // 🎨 Меняем фон
     if (targetId === 'page-map') {
-      // На карте ставим план помещения
-      appBg.style.backgroundImage = "url('plan.png')";
+      setBackground('map');
     } else {
-      // На вкусах и брони ставим атмосферный фон
-      appBg.style.backgroundImage = "url('bg.png')";
+      setBackground('other');
     }
   });
 });
@@ -41,7 +48,7 @@ const tablePositions = {
   10: [50, 28], 9: [50, 40], 8: [50, 52], 7: [50, 64], 6: [50, 86]
 };
 
-// 4. ОТРИСОВКА СТОЛОВ
+// 4. ОТРИСОВКА
 function renderTables(tables) {
   const layer = document.getElementById('tables-layer');
   layer.innerHTML = '';
@@ -67,7 +74,7 @@ function renderTables(tables) {
 // 5. ЗАГРУЗКА ДАННЫХ
 async function loadTables() {
   const { data, error } = await db.from('tables').select('*');
-  if (error) console.error('Ошибка столов:', error);
+  if (error) console.error('Ошибка:', error);
   if (data) renderTables(data);
 }
 
@@ -75,25 +82,17 @@ db.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
 
-// Загрузка миксов
 async function loadMixes() {
-  const { data, error } = await db.from('mixes').select('*');
+  const { data } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
-  
-  if (error) {
-    list.innerHTML = '<p style="text-align:center; color:#e74c3c;">Ошибка загрузки</p>';
-    return;
-  }
-  
-  if (data && data.length > 0) {
+  if (data) {
     list.innerHTML = data.map(m => 
       `<div class="mix-item"><b>${m.name}</b><br>${m.description}</div>`
     ).join('');
-  } else {
-    list.innerHTML = '<p style="text-align:center; color:#aaa;">Список миксов пока пуст</p>';
   }
 }
 
-// Запуск
+// 🚀 ПРИ ЗАГРУЗКЕ СТРАНИЦЫ: Сразу ставим фон карты
+setBackground('map');
 loadTables();
 loadMixes();
