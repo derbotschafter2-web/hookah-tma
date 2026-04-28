@@ -2,56 +2,47 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hookah Map</title>
-  <link rel="icon" href="image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
-  
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Фон -->
   <div id="app-bg"></div>
 
-  <!-- Меню -->
   <nav class="tabs">
-    <button id="tab-map" class="active">📍 Карта</button>
-    <button id="tab-mixes">💨 Миксы</button>
-    <button id="tab-book">📞 Бронь</button>
+    <button onclick="showTab('map')">📍 Карта</button>
+    <button onclick="showTab('mixes')">💨 Миксы</button>
+    <button onclick="showTab('book')">📞 Бронь</button>
   </nav>
 
-  <!-- СТРАНИЦА 1: КАРТА -->
-  <div id="page-map" class="page active map-page">
+  <!-- КАРТА -->
+  <div id="page-map" class="page">
     <div id="tables-layer"></div>
   </div>
 
-  <!-- СТРАНИЦА 2: МИКСЫ -->
-  <div id="page-mixes" class="page hidden">
-    <div class="glass-panel">
-      <h2 class="page-title">🍃 Готовые миксы</h2>
-      <div id="mixes-list" class="list-container">
-        <!-- Сюда загрузятся миксы -->
+  <!-- МИКСЫ -->
+  <div id="page-mixes" class="page" style="display: none;">
+    <div style="padding: 15px;">
+      <h2 style="text-align: center; margin-bottom: 15px;">🍃 Готовые миксы</h2>
+      <div id="mixes-list"></div>
+    </div>
+  </div>
+
+  <!-- БРОНЬ -->
+  <div id="page-book" class="page" style="display: none;">
+    <div style="padding: 20px; text-align: center;">
+      <h2 style="margin-bottom: 20px;">📞 Бронирование</h2>
+      <p style="color: #aaa; margin-bottom: 30px;">Напишите нам!</p>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="https://wa.me/905338862150" style="display: block; padding: 14px; background: #25D366; color: white; text-decoration: none; border-radius: 12px; font-weight: 600;">WhatsApp</a>
+        <a href="https://zalo.me/84347991470" style="display: block; padding: 14px; background: #0068FF; color: white; text-decoration: none; border-radius: 12px; font-weight: 600;">Zalo</a>
       </div>
     </div>
   </div>
 
-  <!-- СТРАНИЦА 3: БРОНЬ -->
-  <div id="page-book" class="page hidden">
-    <div class="glass-panel">
-      <h2 class="page-title">📞 Бронирование</h2>
-      <p class="booking-text">
-        Хотите забронировать стол? <br>
-        Напишите нам! 👇
-      </p>
-      <div class="buttons-row">
-        <a href="https://wa.me/905338862150" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
-        <a href="https://zalo.me/84347991470" target="_blank" class="btn btn-zalo">Zalo</a>
-      </div>
-    </div>
-  </div>
-
-  <script src="app.js?v=2"></script>
+  <script src="app.js"></script>
 </body>
 </html>
