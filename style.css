@@ -48,7 +48,7 @@ body {
 
 .map-page { padding: 0; overflow: hidden; display: block; }
 
-/* ПАНЕЛЬ ВКУСОВ */
+/* ПАНЕЛЬ (для миксов и брони) */
 .glass-panel { 
   display: flex;
   flex-direction: column;
@@ -152,10 +152,8 @@ body {
   font-size: 15px;
   line-height: 1.5;
   margin-bottom: 30px;
-  padding: 0 10px;
 }
 
-/* Кнопки */
 .buttons-row {
   display: flex;
   flex-direction: column;
