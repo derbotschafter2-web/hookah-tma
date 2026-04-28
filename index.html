@@ -12,44 +12,55 @@
 </head>
 <body>
 
-  <!-- Фон (нижний слой) -->
-  <div id="app-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background-size: cover; background-position: center;"></div>
+  <!-- Фон -->
+  <div id="app-bg"></div>
 
-  <!-- Меню (поверх фона) -->
-  <nav class="tabs" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100;">
+  <!-- Меню -->
+  <nav class="tabs">
     <button id="tab-map" class="active">📍 Карта</button>
     <button id="tab-mixes">💨 Миксы</button>
     <button id="tab-book">📞 Бронь</button>
   </nav>
 
-  <!-- КОНТЕНТ (поверх фона и меню) -->
-  <div style="position: relative; z-index: 5; margin-top: 48px; height: calc(100vh - 48px);">
-    
-    <!-- СТРАНИЦА 1: КАРТА -->
-    <div id="page-map" class="page active">
-      <div id="tables-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-    </div>
+  <!-- СТРАНИЦА 1: КАРТА -->
+  <div id="page-map" class="page active map-page">
+    <div id="tables-layer"></div>
+  </div>
 
-    <!-- СТРАНИЦА 2: МИКСЫ -->
-    <div id="page-mixes" class="page hidden">
-      <div class="glass-panel">
-        <h2 class="page-title">🍃 Готовые миксы</h2>
-        <div id="mixes-list" class="list-container"></div>
+  <!-- СТРАНИЦА 2: МИКСЫ -->
+  <div id="page-mixes" class="page hidden">
+    <div class="glass-panel">
+      <h2 class="page-title">🍃 Готовые миксы</h2>
+      <div id="mixes-list" class="list-container">
+        <!-- Сюда JS загрузит миксы -->
       </div>
     </div>
+  </div>
 
-    <!-- СТРАНИЦА 3: БРОНЬ -->
-    <div id="page-book" class="page hidden">
-      <div class="glass-panel">
-        <h2 class="page-title">📞 Забронировать</h2>
-        <p style="text-align:center; color:#aaa; margin:20px 0;">Напишите нам для брони:</p>
-        <div class="buttons-row">
-          <a href="https://wa.me/79990000000" class="btn btn-whatsapp">WhatsApp</a>
-          <a href="https://zalo.me/000000000" class="btn btn-zalo">Zalo</a>
-        </div>
+  <!-- СТРАНИЦА 3: БРОНЬ -->
+  <div id="page-book" class="page hidden">
+    <div class="glass-panel">
+      <h2 class="page-title">📞 Бронирование</h2>
+      
+      <!-- Текст призыва -->
+      <p class="booking-text">
+        Хотите забронировать стол или узнать свободные места? <br>
+        Напишите нам, мы ответим мгновенно! 👇
+      </p>
+
+      <!-- Кнопки -->
+      <div class="buttons-row">
+        <!-- WhatsApp: +905338862150 -->
+        <a href="https://wa.me/905338862150" target="_blank" class="btn btn-whatsapp">
+          WhatsApp
+        </a>
+        
+        <!-- Zalo: 84347991470 -->
+        <a href="https://zalo.me/84347991470" target="_blank" class="btn btn-zalo">
+          Zalo
+        </a>
       </div>
     </div>
-    
   </div>
 
   <script src="app.js"></script>
