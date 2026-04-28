@@ -33,13 +33,13 @@ body {
 }
 .tabs button.active { color: #fff; border-bottom: 2px solid #fff; }
 
-/* Страницы - БЕЗ СКРОЛЛА */
+/* Страницы - ЖЁСТКО ФИКСИРОВАНЫ */
 .page { 
   position: relative; 
   z-index: 5;
   margin-top: 48px; 
   height: calc(100vh - 48px); 
-  overflow: hidden; /* ✅ ПОЛНОСТЬЮ УБРАЛИ СКРОЛЛ */
+  overflow: hidden; 
   padding: 15px; 
   display: none; 
 }
@@ -48,18 +48,18 @@ body {
 
 .map-page { padding: 0; overflow: hidden; display: block; }
 
-/* Стеклянная панель - ФИКСИРОВАННАЯ */
+/* Панель контента */
 .glass-panel { 
   background: rgba(10, 10, 10, 0.85); 
   backdrop-filter: blur(10px); 
   border-radius: 20px; 
   padding: 25px; 
   border: 1px solid rgba(255,255,255,0.1); 
-  height: calc(100vh - 100px); /* Фиксированная высота */
-  overflow: hidden; /* ✅ Убрали скролл внутри */
+  height: calc(100vh - 100px); 
+  overflow: hidden; /* Никакого скролла */
 }
 
-/* Карточки миксов - простые без градиентов */
+/* Карточки миксов - ПРОСТЫЕ */
 .mix-item { 
   background: rgba(20,20,20,0.9); 
   padding: 12px; 
@@ -93,7 +93,7 @@ body {
   pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
 }
 
-/* Статусы */
+/* Статусы столов */
 .status-free .table-tint { opacity: 0; }
 .status-free .smoke-icon { opacity: 0; }
 .status-reserved .table-tint { opacity: 1; }
@@ -101,15 +101,12 @@ body {
 .status-occupied .table-tint { opacity: 0.7; }
 .status-occupied .smoke-icon { opacity: 1; transform: translateX(-50%) scale(1.1); }
 
-/* Заголовки и кнопки */
+/* Текст и кнопки */
 .page-title { 
   font-size: 18px; margin-bottom: 15px; 
   text-shadow: 0 2px 4px #000; text-align: center; 
 }
-.list-container { 
-  display: flex; flex-direction: column; gap: 10px; 
-  max-height: calc(100vh - 150px); /* Ограничение высоты */
-}
+.list-container { display: flex; flex-direction: column; gap: 10px; }
 .buttons-row { display: flex; gap: 10px; margin-top: 20px; }
 .btn { 
   flex: 1; text-align: center; padding: 14px; 
