@@ -12,6 +12,9 @@ window.showTab = function(tabName) {
   // Скрываем все страницы
   document.querySelectorAll('.page').forEach(p => {
     p.style.display = 'none';
+    p.style.backgroundImage = 'none';
+    p.style.backgroundSize = '';
+    p.style.backgroundPosition = '';
   });
   
   // Убираем active у кнопок
@@ -20,50 +23,23 @@ window.showTab = function(tabName) {
   });
   
   // Показываем нужную
-  document.getElementById('page-' + tabName).style.display = 'block';
+  const page = document.getElementById('page-' + tabName);
+  page.style.display = 'block';
+  
+  // Фон для миксов
+  if (tabName === 'mixes') {
+    page.style.backgroundImage = "url('bg.png')";
+    page.style.backgroundSize = 'cover';
+    page.style.backgroundPosition = 'center';
+  }
   
   // Активируем кнопку
   event.target.classList.add('active');
   
-  // Меняем фон
-  if (tabName === 'map') {
-    document.getElementById('app-bg').style.backgroundImage = "url('plan.png')";
-  } else {
-    document.getElementById('app-bg').style.backgroundImage = "url('bg.png')";
-  }
-  
   console.log('Показана вкладка:', tabName);
 };
 
-// Столы
-const positions = {
-  5: [22, 22], 4: [22, 34], 3: [22, 46], 2: [22, 58], 1: [22, 70], 17: [14, 86],
-  15: [78, 22], 14: [78, 34], 13: [78, 46], 12: [78, 58], 11: [78, 70], 16: [86, 86],
-  10: [50, 28], 9: [50, 40], 8: [50, 52], 7: [50, 64], 6: [50, 86]
-};
-
-async function loadTables() {
-  const { data } = await db.from('tables').select('*');
-  if (!data) return;
-  
-  const layer = document.getElementById('tables-layer');
-  layer.innerHTML = '';
-  
-  data.forEach(t => {
-    const pos = positions[t.number];
-    if (!pos) return;
-    
-    const marker = document.createElement('div');
-    marker.className = 'table-marker status-' + t.status;
-    marker.style.left = pos[0] + '%';
-    marker.style.top = pos[1] + '%';
-    marker.innerHTML = '<div class="table-tint"></div><span class="smoke-icon">☁️</span>';
-    layer.appendChild(marker);
-  });
-  
-  console.log('Загружено столов:', data.length);
-}
-
+// Загрузка миксов
 async function loadMixes() {
   console.log('Загрузка миксов...');
   const { data } = await db.from('mixes').select('*');
@@ -87,7 +63,6 @@ async function loadMixes() {
 }
 
 // Запуск
-loadTables();
 loadMixes();
 
 // Активируем первую вкладку
