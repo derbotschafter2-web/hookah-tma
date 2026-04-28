@@ -33,6 +33,8 @@ body { background: #000; color: #fff; font-family: sans-serif; height: 100vh; ov
   height: calc(100vh - 50px);
   overflow-y: auto;
   display: none;
+  background-size: cover;
+  background-position: center;
 }
 .page.active { display: block; }
 
@@ -47,6 +49,9 @@ body { background: #000; color: #fff; font-family: sans-serif; height: 100vh; ov
   padding: 25px 20px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Список миксов */
