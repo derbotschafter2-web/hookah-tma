@@ -1,4 +1,4 @@
-/* Улучшенный дизайн миксов */
+/* Улучшенный дизайн карточек миксов */
 .mix-item {
   background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
   padding: 18px;
@@ -40,7 +40,8 @@
   line-height: 1.5;
 }
 
-/* Разделитель между ингредиентами */
-.mix-item .ingredients::before {
-  content: '';
+/* Скролл для страниц */
+.page {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
