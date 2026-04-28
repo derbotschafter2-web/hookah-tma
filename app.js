@@ -109,29 +109,28 @@ db.channel('tables_realtime')
   }, loadTables)
   .subscribe();
 
-// 8. ЗАГРУЗКА МИКСОВ (С ФОРМАТИРОВАНИЕМ)
+// 8. ЗАГРУЗКА МИКСОВ (С РАЗДЕЛЕНИЕМ НАЗВАНИЯ И ИНГРЕДИЕНТОВ)
 async function loadMixes() {
   const { data, error } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
   
   if (error) {
     console.error('❌ Ошибка загрузки миксов:', error);
-    list.innerHTML = '<p style="text-align:center; color:#e74c3c; padding:20px;">Ошибка загрузки миксов</p>';
+    list.innerHTML = '<p style="text-align:center; color:#e74c3c; padding:20px;">Ошибка загрузки</p>';
     return;
   }
   
   if (data && data.length > 0) {
-    // Форматируем каждый микс с красивым HTML
     list.innerHTML = data.map(m => `
       <div class="mix-item">
-        <b>${m.name}</b>
-        <span class="ingredients">${m.description}</span>
+        <div class="mix-name">${m.name}</div>
+        <div class="mix-desc">${m.description}</div>
       </div>
     `).join('');
     
     console.log('✅ Загружено миксов:', data.length);
   } else {
-    list.innerHTML = '<p style="text-align:center; color:#888; padding:40px;">🍃 Список миксов пока пуст</p>';
+    list.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">Список пуст</p>';
   }
 }
 
