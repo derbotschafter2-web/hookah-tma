@@ -33,7 +33,7 @@ body {
 }
 .tabs button.active { color: #fff; border-bottom: 2px solid #fff; }
 
-/* Страницы - БЕЗ СКРОЛЛА */
+/* Страницы - БЕЗ СКРОЛЛА (скролл только внутри списка) */
 .page { 
   position: relative; 
   z-index: 5;
@@ -85,33 +85,51 @@ body {
 .list-container::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 .list-container::-webkit-scrollbar-track { background: transparent; }
 
-/* ✅ КАРТОЧКА МИКСА (Разделённый дизайн) */
+/* ✅ КАРТОЧКА МИКСА (Картинка слева, текст справа) */
 .mix-item { 
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 0.2s;
   flex-shrink: 0;
 }
 .mix-item:active { background: rgba(255, 255, 255, 0.08); }
 
+/* Картинка микса */
+.mix-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Текстовая часть */
+.mix-content {
+  flex: 1;
+  min-width: 0; 
+}
+
 /* Название микса (крупное, белое) */
 .mix-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   letter-spacing: 0.3px;
 }
 
 /* Ингредиенты (меньше, серее, с разделителем) */
 .mix-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: #8a8a8a;
-  line-height: 1.5;
+  line-height: 1.4;
   border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
 /* Столы */
