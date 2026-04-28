@@ -122,8 +122,10 @@ async function loadMixes() {
   
   if (data && data.length > 0) {
     list.innerHTML = data.map(m => {
-      // Формируем имя файла из названия: TURKISH STYLE -> turkish-style.jpg
-      const imageName = m.name.toLowerCase().replace(/\s+/g, '-');
+      // ✅ Формируем имя файла: убираем точки и спецсимволы
+      const imageName = m.name.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')  // Убираем все символы кроме букв и цифр
+        .replace(/\s+/g, '-');         // Пробелы заменяем на дефисы
       
       return `
       <div class="mix-item" style="background-image: url('mixes/${imageName}.jpg')">
