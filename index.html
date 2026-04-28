@@ -2,62 +2,52 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hookah Map</title>
-  <link rel="icon" href="image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
-  
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Фон (нижний слой) -->
-  <div id="app-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background-size: cover; background-position: center;"></div>
+  <!-- Фон -->
+  <div id="app-bg"></div>
 
-  <!-- Меню (поверх фона) -->
-  <nav class="tabs" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100;">
-    <button id="tab-map" class="active">📍 Карта</button>
-    <button id="tab-mixes">💨 Миксы</button>
-    <button id="tab-book">📞 Бронь</button>
+  <!-- Меню -->
+  <nav class="tabs">
+    <button onclick="showTab('map')" class="active">📍 Карта</button>
+    <button onclick="showTab('mixes')">💨 Миксы</button>
+    <button onclick="showTab('book')">📞 Бронь</button>
   </nav>
 
-  <!-- КОНТЕНТ (поверх фона и меню) -->
-  <div style="position: relative; z-index: 5; margin-top: 48px; height: calc(100vh - 48px);">
-    
-    <!-- СТРАНИЦА 1: КАРТА -->
-    <div id="page-map" class="page active">
-      <div id="tables-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-    </div>
+  <!-- КАРТА -->
+  <div id="page-map" class="page active">
+    <div id="tables-layer"></div>
+  </div>
 
-    <!-- СТРАНИЦА 2: МИКСЫ -->
-    <div id="page-mixes" class="page hidden">
-      <div class="glass-panel">
-        <h2 class="page-title">🍃 Готовые миксы</h2>
-        <div id="mixes-list" class="list-container"></div>
-      </div>
-    </div>
-
-      <!-- СТРАНИЦА 3: БРОНЬ -->
-  <div id="page-book" class="page" style="display: none; background-image: url('bg.png'); background-size: cover; background-position: center;">
-    <div style="padding: 20px; text-align: center; background: rgba(10,10,10, 0.85); border-radius: 20px; margin: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); height: calc(100vh - 100px); display: flex; flex-direction: column; justify-content: center;">
-      
-      <h2 style="margin-bottom: 15px; color: #fff;">📞 Бронирование</h2>
-      
-      <!-- Текст -->
-      <p style="color: #b0b0b0; font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
-       Густой дым, ароматный чай и душевная компания ждут тебя. Забронируй столик заранее, чтобы вечер удался на славу!
-      </p>
-
-      <!-- Кнопки -->
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="https://wa.me/905338862150" style="display: block; padding: 16px; background: #25D366; color: white; text-decoration: none; border-radius: 14px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);">
-          WhatsApp
-        </a>
-        <a href="https://zalo.me/84347991470" style="display: block; padding: 16px; background: #0068FF; color: white; text-decoration: none; border-radius: 14px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(0, 104, 255, 0.3);">
-          Zalo
-        </a>
-      </div>
-
+  <!-- МИКСЫ -->
+  <div id="page-mixes" class="page">
+    <div class="panel">
+      <h2 style="text-align: center; margin-bottom: 15px;">🍃 Готовые миксы</h2>
+      <div id="mixes-list"></div>
     </div>
   </div>
+
+  <!-- БРОНЬ -->
+  <div id="page-book" class="page">
+    <div class="panel book-panel">
+      <h2 style="text-align: center; margin-bottom: 15px;">📞 Бронирование</h2>
+      <p style="color: #b0b0b0; text-align: center; margin-bottom: 25px; line-height: 1.5;">
+        Успей забронировать лучшее место!<br>
+        Напиши нам, и мы всё подготовим 👇
+      </p>
+      <div class="buttons">
+        <a href="https://wa.me/905338862150" class="btn btn-wa">WhatsApp</a>
+        <a href="https://zalo.me/84347991470" class="btn btn-zalo">Zalo</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
