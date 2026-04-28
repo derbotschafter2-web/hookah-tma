@@ -1,47 +1,25 @@
-/* Улучшенный дизайн карточек миксов */
-.mix-item {
-  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-  padding: 18px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  margin-bottom: 12px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
-  overflow: hidden;
+/* Страницы (БЕЗ СКРОЛЛА - как было) */
+.page { 
+  position: relative; 
+  z-index: 5;
+  margin-top: 48px; 
+  height: calc(100vh - 48px); 
+  overflow-y: hidden; /* ✅ Убрали скролл */
+  padding: 15px; 
+  display: none; 
 }
+.page.active { display: block; animation: fade 0.2s ease; }
+.hidden { display: none; }
 
-.mix-item::before {
-  content: '🌿';
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 20px;
-  opacity: 0.3;
-}
+.map-page { padding: 0; overflow: hidden; display: block; }
 
-.mix-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-  border-color: rgba(255,255,255,0.2);
-}
-
-.mix-item b {
-  display: block;
-  font-size: 17px;
-  margin-bottom: 8px;
-  color: #fff;
-  font-weight: 700;
-}
-
-.mix-item .ingredients {
-  display: block;
-  font-size: 14px;
-  color: #aaa;
-  line-height: 1.5;
-}
-
-/* Скролл для страниц */
-.page {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+/* Стеклянная панель (фиксированная высота) */
+.glass-panel { 
+  background: rgba(10, 10, 10, 0.85); 
+  backdrop-filter: blur(10px); 
+  border-radius: 20px; 
+  padding: 25px; 
+  border: 1px solid rgba(255,255,255,0.1); 
+  height: calc(100vh - 100px); /* ✅ Фиксированная высота */
+  overflow-y: auto; /* Только внутри панели если нужно */
 }
