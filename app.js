@@ -109,7 +109,7 @@ db.channel('tables_realtime')
   }, loadTables)
   .subscribe();
 
-// 8. ЗАГРУЗКА МИКСОВ (С КАРТИНКАМИ)
+// 8. ЗАГРУЗКА МИКСОВ (С КАРТИНКАМИ НА ВЕСЬ ФОН)
 async function loadMixes() {
   const { data, error } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
@@ -122,15 +122,12 @@ async function loadMixes() {
   
   if (data && data.length > 0) {
     list.innerHTML = data.map(m => {
-      // Формируем имя файла: TURKISH STYLE -> turkish-style.jpg
+      // Формируем имя файла из названия: TURKISH STYLE -> turkish-style.jpg
       const imageName = m.name.toLowerCase().replace(/\s+/g, '-');
       
       return `
-      <div class="mix-item">
-        <img src="mixes/${imageName}.jpg" 
-             alt="${m.name}" 
-             class="mix-image"
-             onerror="this.style.display='none'">
+      <div class="mix-item" style="background-image: url('mixes/${imageName}.jpg')">
+        <div class="mix-overlay"></div>
         <div class="mix-content">
           <div class="mix-name">${m.name}</div>
           <div class="mix-desc">${m.description}</div>
