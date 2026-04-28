@@ -33,7 +33,7 @@ body {
 }
 .tabs button.active { color: #fff; border-bottom: 2px solid #fff; }
 
-/* Страницы - ЖЁСТКО ФИКСИРОВАНЫ */
+/* Страницы - БЕЗ СКРОЛЛА */
 .page { 
   position: relative; 
   z-index: 5;
@@ -48,24 +48,70 @@ body {
 
 .map-page { padding: 0; overflow: hidden; display: block; }
 
-/* Панель контента */
+/* ✅ ПАНЕЛЬ ВКУСОВ (Фиксированная, не скроллится) */
 .glass-panel { 
+  display: flex;
+  flex-direction: column;
   background: rgba(10, 10, 10, 0.85); 
   backdrop-filter: blur(10px); 
   border-radius: 20px; 
-  padding: 25px; 
+  padding: 20px; 
   border: 1px solid rgba(255,255,255,0.1); 
   height: calc(100vh - 100px); 
-  overflow: hidden; /* Никакого скролла */
+  overflow: hidden; 
 }
 
-/* Карточки миксов - ПРОСТЫЕ */
+/* Заголовок панели (не скроллится) */
+.page-title {
+  font-size: 18px; 
+  margin-bottom: 15px; 
+  text-shadow: 0 2px 4px #000; 
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ✅ СПИСОК МИКСОВ (СКРОЛЛИТСЯ ТОЛЬКО ОН) */
+.list-container { 
+  flex: 1; /* Занимает всё свободное место */
+  overflow-y: auto; /* Включает вертикальный скролл */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+/* Кастомный скроллбар */
+.list-container::-webkit-scrollbar { width: 4px; }
+.list-container::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+.list-container::-webkit-scrollbar-track { background: transparent; }
+
+/* ✅ КАРТОЧКА МИКСА (Разделённый дизайн) */
 .mix-item { 
-  background: rgba(20,20,20,0.9); 
-  padding: 12px; 
-  border-radius: 10px; 
-  border: 1px solid #333; 
-  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.mix-item:active { background: rgba(255, 255, 255, 0.08); }
+
+/* Название микса (крупное, белое) */
+.mix-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* Ингредиенты (меньше, серее, с разделителем) */
+.mix-desc {
+  font-size: 13px;
+  color: #8a8a8a;
+  line-height: 1.5;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 8px;
 }
 
 /* Столы */
@@ -101,12 +147,7 @@ body {
 .status-occupied .table-tint { opacity: 0.7; }
 .status-occupied .smoke-icon { opacity: 1; transform: translateX(-50%) scale(1.1); }
 
-/* Текст и кнопки */
-.page-title { 
-  font-size: 18px; margin-bottom: 15px; 
-  text-shadow: 0 2px 4px #000; text-align: center; 
-}
-.list-container { display: flex; flex-direction: column; gap: 10px; }
+/* Кнопки брони */
 .buttons-row { display: flex; gap: 10px; margin-top: 20px; }
 .btn { 
   flex: 1; text-align: center; padding: 14px; 
