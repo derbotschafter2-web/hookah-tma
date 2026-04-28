@@ -5,7 +5,7 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 window.Telegram.WebApp.ready();
 window.Telegram.WebApp.expand();
 
-// Начальный фон
+// Начальный фон (Карта)
 document.getElementById('app-bg').style.backgroundImage = "url('plan.png')";
 
 // Переключение вкладок
@@ -13,7 +13,6 @@ window.showTab = function(tabName) {
   // Скрываем все страницы
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
-    p.style.backgroundImage = 'none';
   });
   
   // Деактивируем кнопки
@@ -25,11 +24,14 @@ window.showTab = function(tabName) {
   const page = document.getElementById('page-' + tabName);
   page.classList.add('active');
   
-  // Фон для вкладки Миксы
-  if (tabName === 'mixes') {
+  // ✅ ФОН для каждой вкладки
+  if (tabName === 'map') {
+    page.style.backgroundImage = "url('plan.png')";
+    document.getElementById('app-bg').style.backgroundImage = "url('plan.png')";
+  } else {
+    // Для Миксов и Брони используем bg.png
     page.style.backgroundImage = "url('bg.png')";
-    page.style.backgroundSize = 'cover';
-    page.style.backgroundPosition = 'center';
+    document.getElementById('app-bg').style.backgroundImage = "url('bg.png')";
   }
   
   // Активируем кнопку
