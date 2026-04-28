@@ -48,23 +48,23 @@ body {
 
 .map-page { padding: 0; overflow: hidden; display: block; }
 
-/* ПАНЕЛЬ (для миксов и брони) */
+/* ПАНЕЛЬ */
 .glass-panel { 
   display: flex;
   flex-direction: column;
   background: rgba(10, 10, 10, 0.85); 
   backdrop-filter: blur(10px); 
   border-radius: 20px; 
-  padding: 20px; 
+  padding: 15px; 
   border: 1px solid rgba(255,255,255,0.1); 
-  height: calc(100vh - 100px); 
-  overflow: hidden; 
+  height: calc(100vh - 80px); 
+  overflow: hidden;
 }
 
 /* Заголовок */
 .page-title {
   font-size: 18px; 
-  margin-bottom: 15px; 
+  margin-bottom: 10px; 
   text-shadow: 0 2px 4px #000; 
   text-align: center;
   flex-shrink: 0;
@@ -145,13 +145,13 @@ body {
   text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
 
-/* ✅ Стили для страницы БРОНИ */
+/* Стили для страницы БРОНИ */
 .booking-text {
   text-align: center;
   color: #b0b0b0;
   font-size: 15px;
   line-height: 1.5;
-  margin-bottom: 30px;
+  margin: 20px 0 30px 0;
 }
 
 .buttons-row {
