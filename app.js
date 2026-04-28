@@ -109,7 +109,7 @@ db.channel('tables_realtime')
   }, loadTables)
   .subscribe();
 
-// 8. ЗАГРУЗКА МИКСОВ (С РАЗДЕЛЕНИЕМ НАЗВАНИЯ И ИНГРЕДИЕНТОВ)
+// 8. ЗАГРУЗКА МИКСОВ (С КАРТИНКАМИ)
 async function loadMixes() {
   const { data, error } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
@@ -121,12 +121,22 @@ async function loadMixes() {
   }
   
   if (data && data.length > 0) {
-    list.innerHTML = data.map(m => `
+    list.innerHTML = data.map(m => {
+      // Формируем имя файла: TURKISH STYLE -> turkish-style.jpg
+      const imageName = m.name.toLowerCase().replace(/\s+/g, '-');
+      
+      return `
       <div class="mix-item">
-        <div class="mix-name">${m.name}</div>
-        <div class="mix-desc">${m.description}</div>
+        <img src="mixes/${imageName}.jpg" 
+             alt="${m.name}" 
+             class="mix-image"
+             onerror="this.style.display='none'">
+        <div class="mix-content">
+          <div class="mix-name">${m.name}</div>
+          <div class="mix-desc">${m.description}</div>
+        </div>
       </div>
-    `).join('');
+    `}).join('');
     
     console.log('✅ Загружено миксов:', data.length);
   } else {
