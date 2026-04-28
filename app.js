@@ -9,34 +9,39 @@ tg.ready();
 // Элемент фона
 const appBg = document.getElementById('app-bg');
 
-// ✅ ФУНКЦИЯ СМЕНЫ ФОНА
-function setBackground(type) {
-  if (type === 'map') {
-    appBg.style.backgroundImage = "url('plan.png')";
-  } else {
-    appBg.style.backgroundImage = "url('bg.png')";
-  }
-}
+// ✅ УСТАНАВЛИВАЕМ ФОН СРАЗУ
+appBg.style.backgroundImage = "url('plan.png')";
 
-// 2. ВКЛАДКИ
-document.querySelectorAll('.tabs button').forEach(btn => {
+// 2. ВКЛАДКИ - ИСПРАВЛЕНО ПЕРЕКЛЮЧЕНИЕ
+const tabs = document.querySelectorAll('.tabs button');
+const pages = document.querySelectorAll('.page');
+
+tabs.forEach(btn => {
   btn.addEventListener('click', () => {
-    // Сброс активных классов
-    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+    // Убираем active у всех кнопок
+    tabs.forEach(b => b.classList.remove('active'));
+    // Скрываем все страницы
+    pages.forEach(p => {
+      p.classList.remove('active');
+      p.classList.add('hidden');
+    });
     
-    // Активация нажатой кнопки
+    // Делаем активной нажатую кнопку
     btn.classList.add('active');
+    
+    // Показываем нужную страницу
     const targetId = btn.id.replace('tab-', 'page-');
-    const target = document.getElementById(targetId);
-    target.classList.remove('hidden');
-    target.classList.add('active');
-
-    // 🎨 Меняем фон
+    const targetPage = document.getElementById(targetId);
+    if (targetPage) {
+      targetPage.classList.remove('hidden');
+      targetPage.classList.add('active');
+    }
+    
+    // Меняем фон
     if (targetId === 'page-map') {
-      setBackground('map');
+      appBg.style.backgroundImage = "url('plan.png')";
     } else {
-      setBackground('other');
+      appBg.style.backgroundImage = "url('bg.png')";
     }
   });
 });
@@ -48,7 +53,7 @@ const tablePositions = {
   10: [50, 28], 9: [50, 40], 8: [50, 52], 7: [50, 64], 6: [50, 86]
 };
 
-// 4. ОТРИСОВКА
+// 4. ОТРИСОВКА СТОЛОВ
 function renderTables(tables) {
   const layer = document.getElementById('tables-layer');
   layer.innerHTML = '';
@@ -74,25 +79,42 @@ function renderTables(tables) {
 // 5. ЗАГРУЗКА ДАННЫХ
 async function loadTables() {
   const { data, error } = await db.from('tables').select('*');
-  if (error) console.error('Ошибка:', error);
-  if (data) renderTables(data);
+  if (error) {
+    console.error('Ошибка столов:', error);
+    return;
+  }
+  if (data) {
+    renderTables(data);
+    console.log('Загружено столов:', data.length);
+  }
 }
 
+// Подписка на изменения
 db.channel('tables_realtime')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, loadTables)
   .subscribe();
 
+// Загрузка миксов
 async function loadMixes() {
-  const { data } = await db.from('mixes').select('*');
+  const { data, error } = await db.from('mixes').select('*');
   const list = document.getElementById('mixes-list');
-  if (data) {
+  
+  if (error) {
+    console.error('Ошибка миксов:', error);
+    list.innerHTML = '<p style="text-align:center; color:#e74c3c;">Ошибка загрузки</p>';
+    return;
+  }
+  
+  if (data && data.length > 0) {
     list.innerHTML = data.map(m => 
       `<div class="mix-item"><b>${m.name}</b><br>${m.description}</div>`
     ).join('');
+    console.log('Загружено миксов:', data.length);
+  } else {
+    list.innerHTML = '<p style="text-align:center; color:#aaa;">Список миксов пуст</p>';
   }
 }
 
-// 🚀 ПРИ ЗАГРУЗКЕ СТРАНИЦЫ: Сразу ставим фон карты
-setBackground('map');
+// Запуск
 loadTables();
 loadMixes();
